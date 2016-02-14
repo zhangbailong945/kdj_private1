@@ -68,13 +68,13 @@
 			</div>
 			<div class="mini-fit" style=" " >
 				<div class="mini-splitter" style="width:100%;height:100%;" allowResize="false" handlerSize="10" borderStyle="border: none; ">
-				    <div size="330" showCollapseButton="false" style="border: none;">
-				    	<div class="mini-toolbar" style="border-top: none; border-left: none;">
+				    <div size="330" showCollapseButton="false" style="">
+				    	<div class="mini-toolbar" style="border-top: none; border-left: none; border-right: none;">
 							<span style="margin-left: 5px;"><b>Making list</b></span>
 						    <span class="separator"></span>
-						    <a class="mini-button" iconCls="icon-edit" plain="true" onclick="checkSum">ChangeNo.</a>
-							<a class="mini-button" iconCls="icon-remove" plain="true" onclick="doSave" >del</a>
-							<a class="mini-button" iconCls="icon-split" plain="true" onclick="doSave" >clear</a>
+						    <a class="mini-button" iconCls="icon-edit" plain="true" onclick="ChangeNo">ChangeNo.</a>
+							<a class="mini-button" iconCls="icon-remove" plain="true" onclick="delML" >del</a>
+							<a class="mini-button" iconCls="icon-split" plain="true" onclick="clearML" >clear</a>
 							<!--<a class="mini-button" iconCls="icon-addnew" plain="true" onclick="" >Loading by Json</a>-->
 						</div>
 				        <div class="mini-fit" style=" " >
@@ -84,6 +84,42 @@
 				    </div>
 				    <div showCollapseButton="false" style="border: none;">
 				        
+				        <div class="mini-panel" title="Basics material" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+							<div id="eeeeeeeeeeee">
+								<ul id="maintree10" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+								</ul>
+							</div>
+						</div>
+						<div class="mini-panel" title="Direct material" iconCls="icon-add" style="width:240px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+							<div id="eeeeeeeeeeee">
+								<ul id="maintree2" class="mini-tree" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="true" resultAsTree="false">
+								</ul>
+							</div>
+						</div>
+						<div class="mini-panel" title="Finished Product" iconCls="icon-add" style="width:240px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+							<div id="eeeeeeeeeeee">
+								<ul id="maintree6" class="mini-tree" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="true" resultAsTree="false">
+								</ul>
+							</div>
+						</div>
+						<div class="mini-panel" title="Second materia" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+							<div id="ffffffffffff">
+								<ul id="maintree3" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+								</ul>
+							</div>
+						</div>
+						<div class="mini-panel" title="Third materia" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+							<div id="ggggggg">
+								<ul id="maintree4" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+								</ul>
+							</div>
+						</div>
+						<div class="mini-panel" title="Fourth materia" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+							<div id="hhhhhhhhh">
+								<ul id="maintree5" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+								</ul>
+							</div>
+						</div>
 				    </div>        
 				</div>
 			</div>
@@ -127,12 +163,32 @@
 				showList();
 			})
 			
+			function delML(){
+				
+			}
+			
 			function ChangeNo(){
+				var temNode = maintree1.getSelectedNode();
 				
+				if(temNode && temNode.nodeType == "itemNode"){
+					mini.prompt("请输入数量", "修改数量", function (action, value) {
+			                if (action == "ok") {
+			                    if(parseFloat(value) > 0){
+			                    	console.log(temNode);
+									if(treeObjsID[temNode.id]){
+										treeObjsID[temNode.id] = parseFloat(value);
+									}
+									//console.log(treeObjsID);
+									updateTree();
+			                    }else{
+			                    	console.log("非法输入 ："+value);
+			                    }
+			                } 
+			            }
+			        );
+				}
 			}
-			function doChangeNo(){
-				
-			}
+			
 			
 			function loadhis(e){
 				var node = e.node;
@@ -143,11 +199,16 @@
 			
 			function deleteItem(e){
 				var temNode = hisListTree.getSelectedNode();
-				hisListTree.removeNode(temNode);
-				//console.log(temNode);
-				var saveList = store.get('saveList');
-				delete saveList[temNode.storeId];
-				store.set('saveList',saveList);
+				if(temNode){
+					hisListTree.removeNode(temNode);
+					//console.log(temNode);
+					var saveList = store.get('saveList');
+					delete saveList[temNode.storeId];
+					store.set('saveList',saveList);
+				}else{
+					console.log("未选中");
+					mini.alert("请选择要删除历史记录！");
+				}
 			}
 			
 			function doSave(){
@@ -242,7 +303,7 @@
 			 * @param {Object} e
 			 */
 			function addToList(e){
-				//console.log(e);
+				console.log(e);
 				var row = e.row;
 				if(treeObjsID[row.id]){
 					//console.log("数组存在id "+row.id);
