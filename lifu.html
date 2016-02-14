@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<link href="mini/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+	<link href="mini/themes/icons.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="mini/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="mini/miniui.js"></script>
+	<style type="text/css">
+		.trees{
+		}
+		
+	</style>
+
+	<body>
+		<div id="sssssss">
+		</div>
+		
+		<script type="text/javascript" src="js/make.js" ></script>
+		<script type="text/javascript" src="js/lifu.js" ></script>
+		<script type="text/javascript" src="js/job.js" ></script>
+		<script type="text/javascript">
+			mini.parse();
+			//var maintree = mini.get("maintree");
+			
+			/*
+			 
+			 * 小圆饼
+			 * 鳗鱼派
+			 * 翡翠豆汤
+			 * 
+			 * */
+			
+			
+			//ddd.trim();
+			//maintree.setData(makeLiTreeData("烹调师",20,20,"石场水车"));
+			//maintree.setData(getItemTree("d91c5365a6a"));
+			//var aaa =new makeItObject(makeLis["_3f9bd918147"]);
+			//createTree("d91c5365a6a");
+			//createTree("d91c5365a6a");
+			//createTree("d91c5365a6a");
+			//console.log(aaa);
+			
+			//createJobTree("烹调师",20,20,"石场水车");
+			//createJobTree("烹调师",25,25,"石场水车");
+			//createJobTree("烹调师",25,25,"all");
+			//createJobTree("烹调师",35,35,"all");
+			createJobTree("炼金术士",30,30,"all");
+			
+			function test1(e){
+				console.log(e.record.id)
+			}
+			
+			function createJobTree(job,lv1,lv2,place){
+				id = randomString(5)+"_"+job;
+				var title = job+" ["+place+"] "+lv1+" ~ "+lv2+" 理符";
+				var html = "<div class=\"mini-panel\" title=\""+title +"\" iconCls=\"icon-add\" style=\"width:400px; padding: 5px; float: left;\" showToolbar=\"false\" showCollapseButton=\"true\" showFooter=\"false\">";
+				html += "<ul id=\""+id+"\" class=\"mini-tree trees\" onnodeclick=\"test1\" style=\"width:100%;padding:5px;\" showTreeIcon=\"true\" textField=\"text\" idField=\"id\" showCheckBox=\"true\" resultAsTree=\"false\"></ul>";
+				html += "</div>";
+				$("#sssssss").append(html);
+				mini.parse();
+				var maintree = mini.get(id);
+				var treeObject = makeLiTreeData(job,lv1,lv2,place);
+				//console.log(treeObject);
+				maintree.setData(treeObject);
+			}
+			
+			function createTree(id){
+				id = randomString(5)+"_"+id;
+				var html = "<ul id=\""+id+"\" class=\"mini-tree trees\" onnodeclick=\"test1\" style=\"width:250px;padding:5px;\" showTreeIcon=\"true\" textField=\"text\" idField=\"id\" showCheckBox=\"true\" resultAsTree=\"false\"></ul>";
+				$("#sssssss").append(html);
+				mini.parse();
+				var maintree = mini.get(id);
+				var treeObject = makeTreeItem(id);
+				//console.log(treeObject);
+				maintree.setData(treeObject);
+			}
+			
+			/*function makeTreeItem(id){
+				var newid = id.substring(id.indexOf("_"));
+				var item = makeLis[newid];
+				var peifang = item["pf"];
+				peifang = newPeiFangObject(peifang, 0);
+				var children1 = [{
+					id: "it_" + id,
+					text: item["name"],
+					expanded: true,
+					children: peifang
+				}];
+				return children1;
+			}*/
+			
+			
+		</script>
+	</body>
+
+</html>

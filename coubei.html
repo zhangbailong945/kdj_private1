@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<link href="mini/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+	<link href="mini/themes/icons.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="mini/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="mini/miniui.js"></script>
+	<style type="text/css">
+		.trees{
+		}
+		
+	</style>
+
+	<body>
+		<div id="sssssss">
+		</div>
+		
+		<script type="text/javascript" src="js/make.js" ></script>
+		<script type="text/javascript" src="js/lifu.js" ></script>
+		<script type="text/javascript" src="js/job.js" ></script>
+		<script type="text/javascript">
+		
+		createTree("d91c5365a6a");
+		
+		function createTree(id){
+			id = randomString(3)+"_"+id;
+			var html = "<ul id=\""+id+"\" class=\"mini-tree trees\" onnodeclick=\"test1\" style=\"width:100%;padding:5px;\" showTreeIcon=\"true\" textField=\"text\" idField=\"id\" showCheckBox=\"true\" resultAsTree=\"false\"></ul>";
+			$("#sssssss").append(html);
+			mini.parse();
+			var maintree = mini.get(id);
+			maintree.setData(getItemTree("d91c5365a6a"));
+		}
+		
+		</script>
+	</body>
+</html>

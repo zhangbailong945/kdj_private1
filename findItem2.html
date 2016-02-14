@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<link href="mini/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+	<link href="mini/themes/icons.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="mini/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="mini/miniui.js"></script>
+	<script type="text/javascript" src="js/make.js"></script>
+	<script type="text/javascript" src="js/lifu.js"></script>
+	<script type="text/javascript" src="js/job.js"></script>
+	<style type="text/css">
+		.trees {}
+		
+		html body .searchbox .mini-buttonedit-icon {
+			background: url(img/search.gif) no-repeat 50% 50%;
+		}
+		/*html body{ margin: 0px; padding: 0px; width: 100%; height: 100px;}*/
+	</style>
+
+	<body>
+		<div class="mini-panel" title="搜索配方" iconCls="icon-add" style="width:300px;height: 800px; padding: 5px; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+			<div property="toolbar">
+				<input id="jobs" class="mini-combobox" style="width:73px;" textField="text" valueField="text" emptyText="all" value="all" required="true" allowInput="false" data='[{text:"all"},{text:"刻木匠"},{text:"裁衣匠"},{text:"采矿工"},{text:"炼金术士"},{text:"铸甲匠"},{text:"制革匠"},{text:"雕金匠"},{text:"锻铁匠"},{text:"园艺工"},{text:"烹调师"}]'
+				/> Lv
+				<input id="lvs1" class="mini-combobox" style="width:40px;" textField="t" valueField="t" emptyText="all" value="1" required="true" allowInput="true" data='[{t:"1"},{t:"5"},{t:"10"},{t:"15"},{t:"20"},{t:"25"},{t:"30"},{t:"35"},{t:"40"},{t:"45"},{t:"50"},{t:"55"},{t:"60"}]'
+				/> ~
+				<input id="lvs2" class="mini-combobox" style="width:40px;" textField="t" valueField="t" emptyText="all" value="60" required="true" allowInput="true" data='[{t:"1"},{t:"5"},{t:"10"},{t:"15"},{t:"20"},{t:"25"},{t:"30"},{t:"35"},{t:"40"},{t:"45"},{t:"50"},{t:"55"},{t:"60"}]'
+				/>
+				<input id="fffffffffffffffffff" style="width: 100px; float: right;" class="mini-buttonedit searchbox" onkeyup="keyup" onbuttonclick="onbuttonclick" />
+			</div>
+			<div id="sssssss">
+				<ul id="maintree0" class="mini-tree" expandOnDblClick="false" expandOnNodeClick="false" onnodecheck="checkNode" onnodedblclick="addToList" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		<div class="mini-panel" title="待生产列表" iconCls="icon-add" style="width:250px; padding: 5px; margin-left:20px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+			<div property="toolbar">
+				<input id="gggggggggg" style="width: 80px; " />
+				<input value="开始计算" style="float: right;"onclick="checkSum()" type="button" />
+				<input value="Load"  style="float: right;"onclick="showList()" type="button" />
+				<input value="Save"  style="float: right;"onclick="saveList()" type="button" />
+			</div>
+			<div id="dddddddd">
+				<ul id="maintree1" class="mini-tree" expandOnDblClick="false" expandOnNodeClick="false" onnodecheck="checkNode2" onnodedblclick="minusItem" onnodeclick="test1" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		<div class="mini-panel" title="应准备材料统计" iconCls="icon-add" style="width:200px; padding: 5px; margin-left:20px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+			<div id="eeeeeeeeeeee">
+				<ul id="maintree10" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		<div class="mini-panel" title="①级材料统计" iconCls="icon-add" style="width:200px; padding: 5px; margin-left:20px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+			<div id="eeeeeeeeeeee">
+				<ul id="maintree2" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		<div class="mini-panel" title="②级材料统计" iconCls="icon-add" style="width:200px; padding: 5px; margin-left:20px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+			<div id="ffffffffffff">
+				<ul id="maintree3" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		<div class="mini-panel" title="③级材料统计" iconCls="icon-add" style="width:200px; padding: 5px; margin-left:20px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+			<div id="ggggggg">
+				<ul id="maintree4" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		<div class="mini-panel" title="④级材料统计" iconCls="icon-add" style="width:200px; padding: 5px; margin-left:20px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+			<div id="hhhhhhhhh">
+				<ul id="maintree5" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			mini.parse();
+			var maintree0 = mini.get("maintree0");
+			var maintree1 = mini.get("maintree1");
+			var maintree10 = mini.get("maintree10");
+			var maintree2 = mini.get("maintree2");
+			var maintree3 = mini.get("maintree3");
+			var maintree4 = mini.get("maintree4");
+			var maintree5 = mini.get("maintree5");
+			var treeObjs = []; //待生产列表
+			var treeObjsID = {}; //待生产列表
+			var treeObj10 = [{id: "t00001",	text: "应备材料", children: [],expanded: true}]; //应准备列表
+			var treeObj2 = [{id: "t00002",text: "①级材料",children: [],expanded: true	}]; //1级(直接)生产材料
+			//var treeObj2 = []; //1级(直接)生产材料
+			var treeObj3 = [{id: "t00003",text: "②级材料",children: [],expanded: true	}];
+			var treeObj4 = [{id: "t00003",text: "③级材料",children: [],expanded: true	}];
+			var treeObj5 = [{id: "t00003",text: "④级材料",children: [],expanded: true	}];
+			var temItems = null;
+			
+			maintree1.on("drawnode",function(e){
+				var nodeType = e.row.nodeType;
+				//console.log(e)
+				if(nodeType == "itemNode"){
+					e.nodeHtml = e.row.text + " <font color=green>[ x"+ e.row.no +" ]</font> "
+				}
+			})
+			
+			/**
+			 * 
+			 */
+			function saveList(){
+				
+				var str = JSON.stringify(treeObjsID);
+				var name = $("#gggggggggg")[0].value;
+
+				if(name.trim() == ""){
+					mini.alert("将以默认名称保存！");
+					name = "列表-123";// +  new Date().getTime();
+					setCookie(name,str);
+				}
+				console.log(document.cookie);
+			}
+			
+			/**
+			 * 
+			 */
+			function showList(){
+				console.log(getCookie("列表-123"));
+			}
+			
+			/**
+			 * 
+			 * @param {Object} name
+			 */
+			function delList(name){
+				
+			}
+			
+			/**
+			 * 
+			 */
+			function loadList(){
+				//var str = JSON.stringify(treeObjsID);
+				//mini.alert(str,"待生产列表");
+				console.log(getCookie("列表-123"));
+			}
+			
+			/**
+			 * 加载
+			 * @param {Object} e
+			 */
+			function loadFromStr(e){
+				
+			}
+			
+			function keyup2(e){
+				var keycode = e.htmlEvent.keyCode;
+				if(keycode == 13){
+					var source = e.source;
+					var str = source.value;
+					var obj = JSON.parse(str);
+					console.log(obj);
+				}
+			}
+			
+			/**
+			 * 添加到树
+			 * @param {Object} e
+			 */
+			function addToList(e){
+				//console.log(e);
+				var row = e.row;
+				if(treeObjsID[row.id]){
+					//console.log("数组存在id "+row.id);
+					treeObjsID[row.id] = treeObjsID[row.id] + 1;
+				}else{
+					//console.log("新增id "+row.id);
+					treeObjsID[row.id] = 1;
+				}
+				//console.log(treeObjsID);
+				updateTree();
+			}
+			
+			/**
+			 * 减少
+			 * @param {Object} e
+			 */
+			function minusItem(e){
+				//console.log(e);
+				var row = e.row;
+				if(treeObjsID[row.id]){
+					//console.log("数组存在id "+row.id);
+					treeObjsID[row.id] = treeObjsID[row.id] - 1;
+					if(treeObjsID[row.id] == 0){
+						console.log("应该移除的id "+row.id);
+						delete treeObjsID[row.id];//移除元素
+					}
+				}
+				//console.log(treeObjsID);
+				updateTree();
+			}
+			
+			function setCookie(name,value)
+			{
+				var Days = 10;
+				var exp = new Date();
+				exp.setTime(exp.getTime() + Days*24*60*60*1000);
+				document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+			}
+			
+			function getCookie(name)
+			{
+				var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+				if(arr=document.cookie.match(reg))
+				return unescape(arr[2]);
+				else
+				return null;
+			}
+			
+			function updateTree(){
+				treeObjs = [];
+				$.each(treeObjsID, function(i) {
+					var obbb = makeTreeItem(i, true, true);
+					obbb["checked"] = true;
+					obbb["expanded"] = false;
+					obbb["no"] = treeObjsID[i];
+					treeObjs.push(obbb);
+				});
+				maintree1.setData(treeObjs);
+			}
+			
+			function keyup(e){
+				var keycode = e.htmlEvent.keyCode;
+				if(keycode == 13){
+					onbuttonclick(e);
+				}
+			}
+			
+			
+
+			function onbuttonclick(e) {
+				var source = e.source;
+				var job = mini.get("jobs").getValue();
+				var lv1 = parseFloat(mini.get("lvs1").getValue());
+				var lv2 = parseFloat(mini.get("lvs2").getValue());
+				if (lv2 < lv1) {
+					lv2 = lv1;
+					mini.get("lvs2").setValue(lv1);
+				}
+				maintree0.setData(findItemByName(source.value, job, lv1, lv2));
+			}
+
+			function findItemByName(name, job, lv1, lv2) {
+				var treeObject = [];
+				var size = 200;
+				var sizeindex = 0;
+				//console.log(name+" - "+job+" - "+lv1+" - "+lv2);
+				/*if(name.trim() == ""){
+					return treeObject;
+				}*/
+				//var items = [];
+				$.each(makeLis, function(index) {
+					if (sizeindex > size) {
+						return;
+					}
+					//console.log(makeLis_[index]);
+					if (makeLis[index].name.indexOf(name) != -1 && (makeLis[index].job == job || job == "all") && makeLis[index].lv >= lv1 && makeLis[index].lv <= lv2) {
+						var item = makeLis[index];
+						var peifang = item["pf"];
+						peifang = newPeiFangObject(peifang, 0);
+						var children1 = {
+							id: index,
+							text: item["name"] + " [" + item["job"] + " : " + item["lv"] + "]",
+							expanded: false,
+							nodeType: "itemNode",
+							children: peifang
+						};
+						treeObject.push(children1);
+						sizeindex++;
+					}
+				});
+				return treeObject;
+			}
+			
+			function makeWorkListTree(id,expanded,no){
+				var newid = id.substring(id.indexOf("_"));
+				//console.log("id = "+id+" newid = "+newid);
+				var item = makeLis[newid];
+				var peifang = item["pf"];
+				peifang = newPeiFangObject(peifang, 0);
+				var children1 = {
+					id: id,
+					text: item["name"]+ " ["+item["job"]+" : "+item["lv"]+"]" + " x "+no,
+					expanded: expanded,
+					nodeType: "itemNode",
+					no:no,
+					children: peifang
+				};
+				//console.log(children1);
+				return children1;
+			}
+
+			function checkNode(e) {
+				var node = e.node;
+				var sender = e.sender;
+				var source = e.source;
+				//console.log(e)
+				//console.log("node.id = "+node.id+" node.nodeType = "+node.nodeType)
+				if (node.nodeType == "itemNode" && !e.checked) {
+					var obbb = makeTreeItem(node.id, true, true);
+					obbb["checked"] = true;
+					treeObj1.push(obbb);
+					maintree1.setData(treeObj1);
+					//console.log(treeObj1);
+				}
+				if (node.nodeType == "itemNode" && e.checked) {
+					cancelSelect(node.id);
+				}
+				//console.log(treeObj1);
+				//checkSum();
+			}
+
+			function checkNode2(e) {
+				var node = e.node;
+				var sender = e.sender;
+				var source = e.source;
+				//console.log(e)
+				//console.log("node.id = "+node.id+" node.nodeType = "+node.nodeType)
+				if (node.nodeType == "itemNode" && e.checked) {
+					cancelSelect(node.id);
+					return;
+				}
+				var temtrees = maintree1.getRootNode().children;
+				var needdel = "";
+				$.each(temtrees, function(index) {
+					if (!temtrees[index].checked) {
+						cancelSelect(temtrees[index].id);
+					}
+				});
+				//checkSum();
+			}
+
+			function cancelSelect(id) {
+				var tem = []
+				$.each(treeObj1, function(index) {
+					if (treeObj1[index].id != id) {
+						tem.push(treeObj1[index]);
+					}
+				});
+				treeObj1 = tem;
+				maintree1.setData(treeObj1);
+				var temtrees = maintree0.getRootNode().children;
+				$.each(temtrees, function(index) {
+					if (temtrees[index].id == id) {
+						maintree0.uncheckNode(temtrees[index]);
+					}
+				});
+				//;
+			}
+
+			function updateObj(tems1, tems2) {
+				//console.log("tem1.length = " + tems1.length)
+				var fff = true;
+				for (var i = 0; i < tems1.length; i++) {
+					//console.log("tem1 = " + tems1[i].name + " tem2 = " + tems2.name);
+					if (tems1[i].id.substring(4) == tems2.id.substring(4)) {
+					//if (tems1[i].name == tems2.name) {
+						tems1[i].no = parseFloat(tems1[i].no) + parseFloat(tems2.no);
+						tems1[i].text = tems1[i].name + " x" + tems1[i].no;
+						fff = false;
+						//console.log("-->已存在 " + tems1[i].text);
+					}
+				}
+				if(fff){
+					//console.log("++>不存在 " + tems2.name);
+					tems1.push(tems2);
+				}
+				//console.log(tems1);
+				return tems1;
+			}
+			
+			
+			function checkSum() {
+				var tem1 = [];
+				var tem2 = [];
+				var tem3 = [];
+				var tem4 = [];
+				var tem5 = [];
+				
+				console.log(treeObjsID)
+				
+				
+				
+				treeObj10[0]["children"] = tem1;
+				maintree10.setData(treeObj10);
+				
+				treeObj2[0]["children"] = tem2;
+				maintree2.setData(treeObj2);
+				
+				treeObj3[0]["children"] = tem3;
+				maintree3.setData(treeObj3);
+				
+				treeObj4[0]["children"] = tem4;
+				maintree4.setData(treeObj4);
+				
+				treeObj5[0]["children"] = tem5;
+				maintree5.setData(treeObj5);
+			}
+
+
+			function test1(e) {
+				console.log(e.node.id)
+			}
+		</script>
+	</body>
+
+</html>

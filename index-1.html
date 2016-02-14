@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<link href="mini/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+	<link href="mini/themes/icons.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="mini/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="mini/miniui.js"></script>
+
+	<body>
+		<div class="mini-panel" title="" iconCls="icon-add" style="width:100%; padding: 5px; float: left;" showToolbar="false" showCollapseButton="true" showFooter="false">
+			<div id="sssssss">
+				<ul id="maintree" class="mini-tree" onnodeclick="test1" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="true" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/make.js" ></script>
+		<script type="text/javascript" src="js/lifu.js" ></script>
+		<script type="text/javascript" src="js/job.js" ></script>
+		<script type="text/javascript">
+			mini.parse();
+			var maintree = mini.get("maintree");
+			
+			/*
+			 
+			 * 小圆饼
+			 * 鳗鱼派
+			 * 翡翠豆汤
+			 * 
+			 * */
+			
+			
+			/*//var ddd = "";
+			maintree.on("drawnode",function(e){
+				var record = e.record;
+				if(record.nodeType != "misson"){
+					console.log(e.record);
+					//第一级
+					var children = record.children;
+					for(var i = 0; i<children.length; i++){
+						var children1 = children.children;
+						for(var i = 0; i<children.length; i++){
+							
+						}
+					}
+				}
+				
+			})*/
+			//ddd.trim();
+			//maintree.setData(makeLiTreeData("烹调师",20,20,"石场水车"));
+			maintree.setData(getItemTree("d91c5365a6a"));
+			//var aaa =new makeItObject(makeLis["_3f9bd918147"]);
+			createTree("d91c5365a6a");
+			createTree("d91c5365a6a");
+			createTree("d91c5365a6a");
+			//console.log(aaa);
+			
+			function test1(e){
+				//console.log(e.record.id)
+			}
+			
+			
+			function createTree(id){
+				id = randomString(3)+"_"+id;
+				var html = "<ul id=\""+id+"\" class=\"mini-tree trees\" onnodeclick=\"test1\" style=\"width:100%;padding:5px;\" showTreeIcon=\"true\" textField=\"text\" idField=\"id\" showCheckBox=\"true\" resultAsTree=\"false\"></ul>";
+				$("#sssssss").append(html);
+				mini.parse();
+				var maintree = mini.get(id);
+				maintree.setData(getItemTree("d91c5365a6a"));
+			}
+			
+			
+		</script>
+	</body>
+
+</html>

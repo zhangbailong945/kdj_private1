@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<link href="mini/themes/default/miniui.css" rel="stylesheet" type="text/css" />
+	<link href="mini/themes/icons.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="mini/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="mini/miniui.js"></script>
+	<script type="text/javascript" src="js/make.js"></script>
+	<script type="text/javascript" src="js/lifu.js"></script>
+	<script type="text/javascript" src="js/job.js"></script>
+	<script type="text/javascript" src="js/store+json2.min.js"></script>
+	<script type="text/javascript" src="js/dostore.js" ></script>
+	<style type="text/css">
+		.trees {}
+		
+		html body .searchbox .mini-buttonedit-icon {
+			background: url(img/search.gif) no-repeat 50% 50%;
+		}
+		html body{ margin: 0px; padding: 0px; width: 100%; height: 100%;}
+	</style>
+
+	<body>
+	<div id="layout1" class="mini-layout" style="width:100%;height:100%;">
+		<div showHeader="false"  region="north" height="53">
+			<h2 style="margin-left: 20px;">FF14 Craftsman Calculator V1.0</h2>
+		</div>
+		<div title="south" region="south" showSplit="false" showHeader="false" height="20">
+			<center>Copyright © <font color="#FF6347">@温文尔雅的暖宝宝</font></center>
+		</div>
+		<div title="Prescription" region="west" width="300" style="">
+			<div class="mini-panel" showHeader="false" iconCls="icon-add" style="width:100%;height: 100%;" borderStyle="border: none; " showToolbar="true" showCollapseButton="false" showFooter="false">
+				<div property="toolbar">
+					<input id="jobs" class="mini-combobox" style="width:73px;" textField="text" valueField="text" emptyText="all" value="all" required="true" allowInput="false" 
+						data='[{text:"all"},{text:"刻木匠"},{text:"锻铁匠"},{text:"铸甲匠"},{text:"制革匠"},{text:"裁衣匠"},{text:"雕金匠"},{text:"炼金术士"},{text:"烹调师"}]'
+					/> Lv
+					<input id="lvs1" class="mini-combobox" style="width:40px;" textField="t" valueField="t" emptyText="all" value="1" required="true" allowInput="true" data='[{t:"1"},{t:"5"},{t:"10"},{t:"15"},{t:"20"},{t:"25"},{t:"30"},{t:"35"},{t:"40"},{t:"45"},{t:"50"},{t:"55"},{t:"60"}]'
+					/> ~
+					<input id="lvs2" class="mini-combobox" style="width:40px;" textField="t" valueField="t" emptyText="all" value="60" required="true" allowInput="true" data='[{t:"1"},{t:"5"},{t:"10"},{t:"15"},{t:"20"},{t:"25"},{t:"30"},{t:"35"},{t:"40"},{t:"45"},{t:"50"},{t:"55"},{t:"60"}]'
+					/>
+					<input id="fffffffffffffffffff" style="width: 100px; float: right;" class="mini-buttonedit searchbox" onkeyup="keyup" onbuttonclick="onbuttonclick" />
+				</div>
+				<div id="sssssss" style="border: none;">
+					<ul id="maintree0" class="mini-tree" expandOnDblClick="false" expandOnNodeClick="false" onnodecheck="checkNode" onnodedblclick="addToList" style="width:100%;padding:5px; border: none;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div title="History" region="east" width="250">
+			<div property="toolbar" >
+				<a class="mini-button"  plain="true" style="float: right;" onclick="deleteItem()" iconCls="icon-remove">delete Item</a>
+			</div>
+			<div id="hisListDiv">
+				<ul id="hisListTree" class="mini-tree" onnodedblclick="loadhis"  style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+				</ul>
+			</div>
+		</div>
+		<div title="center" region="center" style=""> <!-- border: none; -->
+			<div class="mini-toolbar" style="border-top: none; border-right: none; border-left: none;">
+				<span style="margin-left: 10px;"><b>Manufacturing list</b></span>
+			    <span class="separator"></span>
+			    <a class="mini-button" iconCls="icon-goto" plain="true" onclick="checkSum">doing statistics</a>
+				<a class="mini-button" iconCls="icon-save" plain="true" onclick="doSave" >Saving list</a>
+				<!--<a class="mini-button" iconCls="icon-addnew" plain="true" onclick="" >Loading by Json</a>-->
+			</div>
+			<div class="mini-fit" style=" " >
+				<div class="mini-splitter" style="width:100%;height:100%;" allowResize="false" handlerSize="10" borderStyle="border: none; ">
+				    <div size="330" showCollapseButton="false" style="border: none;">
+				    	<div class="mini-toolbar" style="border-top: none; border-left: none;">
+							<span style="margin-left: 5px;"><b>Making list</b></span>
+						    <span class="separator"></span>
+						    <a class="mini-button" iconCls="icon-edit" plain="true" onclick="checkSum">ChangeNo.</a>
+							<a class="mini-button" iconCls="icon-remove" plain="true" onclick="doSave" >del</a>
+							<a class="mini-button" iconCls="icon-split" plain="true" onclick="doSave" >clear</a>
+							<!--<a class="mini-button" iconCls="icon-addnew" plain="true" onclick="" >Loading by Json</a>-->
+						</div>
+				        <div class="mini-fit" style=" " >
+				        	<ul id="maintree1" class="mini-tree" expandOnDblClick="false" expandOnNodeClick="false" onnodecheck="checkNode2" onnodedblclick="minusItem" onnodeclick="test1" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
+							</ul>
+				        </div>
+				    </div>
+				    <div showCollapseButton="false" style="border: none;">
+				        
+				    </div>        
+				</div>
+			</div>
+		</div>
+	</div>
+		<!--
+		
+		-->
+		<script type="text/javascript">
+			mini.parse();
+			var maintree0 = mini.get("maintree0");
+			var hisListTree = mini.get("hisListTree");
+			var maintree1 = mini.get("maintree1");
+			var maintree10 = mini.get("maintree10");
+			var maintree2 = mini.get("maintree2");
+			var maintree3 = mini.get("maintree3");
+			var maintree4 = mini.get("maintree4");
+			var maintree5 = mini.get("maintree5");
+			var maintree6 = mini.get("maintree6");
+			
+			var treeObjs = []; //待生产列表
+			var treeObjsID = {}; //待生产列表
+			var treeObj10 = [{id: "t00001",	text: "Basics material", children: [], expanded: true }]; //应准备列表
+			var treeObj2 = [{id: "t00002", text: "Direct material",children: [], expanded: true }]; //1级(直接)生产材料
+			//var treeObj2 = []; //1级(直接)生产材料
+			var treeObj3 = [{id: "t00003", text: "Second materia",children: [], expanded: true }];
+			var treeObj4 = [{id: "t00004", text: "Third materia",children: [], expanded: true	}];
+			var treeObj5 = [{id: "t00005", text: "Fourth materia",children: [], expanded: true }];
+			var treeObj6 = [{id: "t00006", text: "Finished Product",children: [], expanded: true }];
+			var temItems = null;
+			
+			maintree1.on("drawnode",function(e){
+				var nodeType = e.row.nodeType;
+				//console.log(e)
+				if(nodeType == "itemNode"){
+					e.nodeHtml = e.row.text + " <font color=green>[ x"+ e.row.no +" ]</font> "
+				}
+			})
+			
+			$(function(){
+				showList();
+			})
+			
+			function ChangeNo(){
+				
+			}
+			function doChangeNo(){
+				
+			}
+			
+			function loadhis(e){
+				var node = e.node;
+				treeObjsID = node.object;
+				updateTree();
+				checkSum();
+			}
+			
+			function deleteItem(e){
+				var temNode = hisListTree.getSelectedNode();
+				hisListTree.removeNode(temNode);
+				//console.log(temNode);
+				var saveList = store.get('saveList');
+				delete saveList[temNode.storeId];
+				store.set('saveList',saveList);
+			}
+			
+			function doSave(){
+				mini.prompt("请输入列表名称", "保存当前列表",
+		            function (action, value) {
+		                if (action == "ok") {
+		                    saveList(value);
+		                } 
+		            }
+		        );
+			}
+			
+			/**
+			 * 
+			 */
+			function saveList(name){
+				var save =false;
+				$.each(treeObjsID, function() {
+					save = true;
+				});
+				if(!save){
+					return;
+				}
+				
+				var now = new Date();
+				var time = now.getTime();
+				var dataTiem = now.toLocaleString();
+				var key = name.trim() == "" ? "list-"+dataTiem : name;
+				var saveTree = {text:key, id:randomString(8), object:treeObjsID,storeId:time};
+				var saveList = store.get('saveList');
+				if(!saveList){
+					saveList = {};
+				}
+				saveList[time] = saveTree;
+				store.set('saveList',saveList);
+				showList();
+			}
+			
+			/**
+			 * 
+			 */
+			function showList(){
+				var saveList = store.get('saveList');
+				var datas = [];
+				if(!saveList){
+					saveList = {};
+				}
+				
+				$.each(saveList, function(i) {
+					datas.push(saveList[i])
+				});
+				hisListTree.setData(datas);
+			}
+			
+			/**
+			 * 
+			 * @param {Object} name
+			 */
+			function delList(name){
+				
+			}
+			
+			/**
+			 * 
+			 */
+			function loadList(){
+				//var str = JSON.stringify(treeObjsID);
+				//mini.alert(str,"待生产列表");
+				console.log(getCookie("列表-123"));
+			}
+			
+			/**
+			 * 加载
+			 * @param {Object} e
+			 */
+			function loadFromStr(e){
+				
+			}
+			
+			function keyup2(e){
+				var keycode = e.htmlEvent.keyCode;
+				if(keycode == 13){
+					var source = e.source;
+					var str = source.value;
+					var obj = JSON.parse(str);
+					console.log(obj);
+				}
+			}
+			
+			/**
+			 * 添加到树
+			 * @param {Object} e
+			 */
+			function addToList(e){
+				//console.log(e);
+				var row = e.row;
+				if(treeObjsID[row.id]){
+					//console.log("数组存在id "+row.id);
+					treeObjsID[row.id] = treeObjsID[row.id] + 1;
+				}else{
+					//console.log("新增id "+row.id);
+					treeObjsID[row.id] = 1;
+				}
+				//console.log(treeObjsID);
+				updateTree();
+			}
+			
+			/**
+			 * 减少
+			 * @param {Object} e
+			 */
+			function minusItem(e){
+				//console.log(e);
+				var row = e.row;
+				if(treeObjsID[row.id]){
+					//console.log("数组存在id "+row.id);
+					treeObjsID[row.id] = treeObjsID[row.id] - 1;
+					if(treeObjsID[row.id] == 0){
+						console.log("应该移除的id "+row.id);
+						delete treeObjsID[row.id];//移除元素
+					}
+				}
+				//console.log(treeObjsID);
+				updateTree();
+			}
+			
+			function setCookie(name,value)
+			{
+				var Days = 10;
+				var exp = new Date();
+				exp.setTime(exp.getTime() + Days*24*60*60*1000);
+				document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+			}
+			
+			function getCookie(name)
+			{
+				var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+				if(arr=document.cookie.match(reg))
+				return unescape(arr[2]);
+				else
+				return null;
+			}
+			
+			function updateTree(){
+				treeObjs = [];
+				$.each(treeObjsID, function(i) {
+					var obbb = makeTreeItem(i, true, true);
+					obbb["checked"] = true;
+					obbb["expanded"] = false;
+					obbb["no"] = treeObjsID[i];
+					treeObjs.push(obbb);
+				});
+				maintree1.setData(treeObjs);
+			}
+			
+			function keyup(e){
+				var keycode = e.htmlEvent.keyCode;
+				if(keycode == 13){
+					onbuttonclick(e);
+				}
+			}
+
+			function onbuttonclick(e) {
+				var source = e.source;
+				var job = mini.get("jobs").getValue();
+				var lv1 = parseFloat(mini.get("lvs1").getValue());
+				var lv2 = parseFloat(mini.get("lvs2").getValue());
+				if (lv2 < lv1) {
+					lv2 = lv1;
+					mini.get("lvs2").setValue(lv1);
+				}
+				maintree0.setData(findItemByName(source.value, job, lv1, lv2));
+				//hisListTree.setData(findItemByName(source.value, job, lv1, lv2));
+			}
+
+			function findItemByName(name, job, lv1, lv2) {
+				var treeObject = [];
+				var size = 200;
+				var sizeindex = 0;
+				//console.log(name+" - "+job+" - "+lv1+" - "+lv2);
+				/*if(name.trim() == ""){
+					return treeObject;
+				}*/
+				//var items = [];
+				$.each(makeLis, function(index) {
+					if (sizeindex > size) {
+						return;
+					}
+					//console.log(makeLis_[index]);
+					if (makeLis[index].name.indexOf(name) != -1 && (makeLis[index].job == job || job == "all") && makeLis[index].lv >= lv1 && makeLis[index].lv <= lv2) {
+						var item = makeLis[index];
+						var peifang = item["pf"];
+						peifang = newPeiFangObject(peifang, 0);
+						var children1 = {
+							id: index,
+							text: item["name"] + " [" + item["job"] + " : " + item["lv"] + "]",
+							expanded: false,
+							nodeType: "itemNode",
+							children: peifang
+						};
+						treeObject.push(children1);
+						sizeindex++;
+					}
+				});
+				return treeObject;
+			}
+			
+			function makeWorkListTree(id,expanded,no){
+				var newid = id.substring(id.indexOf("_"));
+				//console.log("id = "+id+" newid = "+newid);
+				var item = makeLis[newid];
+				var peifang = item["pf"];
+				peifang = newPeiFangObject(peifang, 0);
+				var children1 = {
+					id: id,
+					text: item["name"]+ " ["+item["job"]+" : "+item["lv"]+"]" + " x "+no,
+					expanded: expanded,
+					nodeType: "itemNode",
+					no:no,
+					children: peifang
+				};
+				//console.log(children1);
+				return children1;
+			}
+
+			function checkNode(e) {
+				var node = e.node;
+				var sender = e.sender;
+				var source = e.source;
+				//console.log(e)
+				//console.log("node.id = "+node.id+" node.nodeType = "+node.nodeType)
+				if (node.nodeType == "itemNode" && !e.checked) {
+					var obbb = makeTreeItem(node.id, true, true);
+					obbb["checked"] = true;
+					treeObj1.push(obbb);
+					maintree1.setData(treeObj1);
+					//console.log(treeObj1);
+				}
+				if (node.nodeType == "itemNode" && e.checked) {
+					cancelSelect(node.id);
+				}
+				//console.log(treeObj1);
+				//checkSum();
+			}
+
+			function checkNode2(e) {
+				var node = e.node;
+				var sender = e.sender;
+				var source = e.source;
+				//console.log(e)
+				//console.log("node.id = "+node.id+" node.nodeType = "+node.nodeType)
+				if (node.nodeType == "itemNode" && e.checked) {
+					cancelSelect(node.id);
+					return;
+				}
+				var temtrees = maintree1.getRootNode().children;
+				var needdel = "";
+				$.each(temtrees, function(index) {
+					if (!temtrees[index].checked) {
+						cancelSelect(temtrees[index].id);
+					}
+				});
+				//checkSum();
+			}
+
+			function cancelSelect(id) {
+				var tem = []
+				$.each(treeObj1, function(index) {
+					if (treeObj1[index].id != id) {
+						tem.push(treeObj1[index]);
+					}
+				});
+				treeObj1 = tem;
+				maintree1.setData(treeObj1);
+				var temtrees = maintree0.getRootNode().children;
+				$.each(temtrees, function(index) {
+					if (temtrees[index].id == id) {
+						maintree0.uncheckNode(temtrees[index]);
+					}
+				});
+				//;
+			}
+
+			function updateObj(tems1, tems2) {
+				//console.log("tem1.length = " + tems1.length)
+				var fff = true;
+				for (var i = 0; i < tems1.length; i++) {
+					//console.log("tem1 = " + tems1[i].name + " tem2 = " + tems2.name);
+					if (tems1[i].id.substring(4) == tems2.id.substring(4)) {
+					//if (tems1[i].name == tems2.name) {
+						tems1[i].no = parseFloat(tems1[i].no) + parseFloat(tems2.no);
+						tems1[i].text = tems1[i].name + " x" + tems1[i].no;
+						fff = false;
+						//console.log("-->已存在 " + tems1[i].text);
+					}
+				}
+				if(fff){
+					//console.log("++>不存在 " + tems2.name);
+					tems1.push(tems2);
+				}
+				//console.log(tems1);
+				return tems1;
+			}
+			
+			var baseMaterial = {};
+			var DirectMaterial = {};
+			var SecondMaterial = {};
+			var ThirdMaterial = {};
+			var FourthMaterial = {};
+			var Materials = {};
+			var FinishedProduct ={};
+			
+			function checkSum() {
+				var tem1 = [];
+				var tem2 = [];
+				var tem3 = [];
+				var tem4 = [];
+				var tem5 = [];
+				var tem6 = [];
+				baseMaterial = {};
+				DirectMaterial = {};
+			    SecondMaterial = {};
+				ThirdMaterial = {};
+				FourthMaterial = {};
+				Materials = {};
+				FinishedProduct ={};
+				
+				$.each(treeObjsID, function(i) {
+					var item = makeLis[i];
+					var makingNo = treeObjsID[i];
+					var itempf = item.pf;//直接材料配方
+					//---console.log("生产数量 = "+makingNo);
+					
+					//直接材料
+					for(var j=0; j<itempf.length; j++){
+						var pf0it = makeLis["_" + itempf[j].id];
+						var pf0no = itempf[j].no; //直接材料所需数量
+						//---console.log("+++直接级材料 = " + itempf[j].name+" 所需数量 = " + pf0no);
+						 //直接材料有配方
+						if(pf0it){
+							var pf0pf = pf0it.pf;//
+							//---console.log(pf0pf);
+							for(var k=0; k<pf0pf.length; k++){
+								var pf1it = makeLis["_" + pf0pf[k].id];
+								var pf1no = pf0pf[k].no;//直接材料所需数量
+								//---console.log("+++++ 直接材料 "+itempf[j].name+" 的配方材料 = " + pf0pf[k].name +" 所需数量 = " + pf1no);
+								
+								if(pf1it){
+									//console.log("+++++ 二级级材料   " + pf1it.name+" 所需数量 = "+pf1no);
+									var pf1pf = pf1it.pf;////三级材料所需数量
+									for(var x=0; x<pf1pf.length; x++){
+										var pf2it = makeLis["_" + pf1pf[x].id];
+										var pf2no = pf1pf[x].no;
+										//---console.log("+++++ 二级材料 "+pf1it.name+" 的配方材料 = " + pf1pf[x].name +" 所需数量 = " + pf2no);
+										
+										if(pf2it){
+											var pf2pf = pf2it.pf;//三级材料的配方
+											//---console.log("+++++ 三级材料  = " + pf2it.name +" 所需数量 = "+pf1no);
+											for(var y=0; y<pf2pf.length; y++){
+												var last = pf2pf[y].id;
+												var lastNo = pf2pf[y].no;
+												//---console.log("+++++ 三级材料 "+pf2it.name+" 的配方材料 = " + pf2pf[y].name +" 所需数量 = " + lastNo);
+												
+												if(baseMaterial[pf2pf[y].id]){
+													baseMaterial[pf2pf[y].id] = parseFloat(baseMaterial[pf2pf[y].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(lastNo) * parseFloat(makingNo);
+												}else{
+													baseMaterial[pf2pf[y].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(lastNo) * parseFloat(makingNo);
+												}
+												if(FourthMaterial[pf2pf[y].id]){
+													FourthMaterial[pf2pf[y].id] = parseFloat(FourthMaterial[pf2pf[y].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(lastNo) * parseFloat(makingNo);
+												}else{
+													FourthMaterial[pf2pf[y].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(lastNo) * parseFloat(makingNo);
+												}
+												/*if(FinishedProduct[pf2pf[y].id]){
+													FinishedProduct[pf2pf[y].id] = parseFloat(FinishedProduct[pf2pf[y].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(lastNo) * parseFloat(makingNo);
+												}else{
+													FinishedProduct[pf2pf[y].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(lastNo) * parseFloat(makingNo);
+												}*/
+												var memo = pf2pf[y].memo;
+												var job = memo.indexOf("[") == -1 ? "[]" : memo.substring(memo.indexOf("["));
+												Materials[pf2pf[y].id] = {name:pf2pf[y].name, job:job};
+											}
+											if(FinishedProduct[pf1pf[x].id]){
+												FinishedProduct[pf1pf[x].id] = parseFloat(FinishedProduct[pf1pf[x].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) *  parseFloat(makingNo);
+											}else{
+												FinishedProduct[pf1pf[x].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(makingNo);
+												//---console.log("%cpf0no = " + pf0no + " pf1no = " + pf1no + " makingNo = "+makingNo,"color:red")
+											}
+										}else{
+											//---console.log("-----三级配方就是基础材料>>>>>>>>>> name=" + pf1pf[x].name + " id=" + pf1pf[x].id);
+											if(baseMaterial[pf1pf[x].id]){
+												baseMaterial[pf1pf[x].id] = parseFloat(baseMaterial[pf1pf[x].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(makingNo);
+											}else{
+												baseMaterial[pf1pf[x].id] = parseFloat(pf0no)  * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(makingNo);
+											}
+											//Materials[pf1pf[x].id] = pf1pf[x].name;
+										}
+										//三级材料统计
+										if(ThirdMaterial[pf1pf[x].id]){
+											ThirdMaterial[pf1pf[x].id] = parseFloat(ThirdMaterial[pf1pf[x].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) *  parseFloat(makingNo);
+										}else{
+											ThirdMaterial[pf1pf[x].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(pf2no) * parseFloat(makingNo);
+											//---console.log("%cpf0no = " + pf0no + " pf1no = " + pf1no + " makingNo = "+makingNo,"color:red")
+										}
+										
+										var memo1 = pf1pf[x].memo;
+										var job1 = memo1.indexOf("[") == -1 ? "[]" : memo1.substring(memo1.indexOf("["));
+										Materials[pf1pf[x].id] = {name:pf1pf[x].name,job:job1};
+									}
+									
+									if(FinishedProduct[pf0pf[k].id]){
+										FinishedProduct[pf0pf[k].id] = parseFloat(FinishedProduct[pf0pf[k].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(makingNo);
+									}else{
+										FinishedProduct[pf0pf[k].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(makingNo);
+									}
+								}else{
+									//---console.log("-----二级配方材料 " + pf0pf[k].name+" 已经是基础材料");
+									if(baseMaterial[pf0pf[k].id]){
+										baseMaterial[pf0pf[k].id] = parseFloat(baseMaterial[pf0pf[k].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(makingNo);
+									}else{
+										baseMaterial[pf0pf[k].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(makingNo);
+									}
+									//Materials[pf0pf[k].id] = pf0pf[k].name;
+								}
+								
+								//二级材料统计
+								if(SecondMaterial[pf0pf[k].id]){
+									SecondMaterial[pf0pf[k].id] = parseFloat(SecondMaterial[pf0pf[k].id]) + parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(makingNo);
+								}else{
+									SecondMaterial[pf0pf[k].id] = parseFloat(pf0no) * parseFloat(pf1no) * parseFloat(makingNo);
+								}
+								
+								var memo2 = pf0pf[k].memo;
+								var job2 = memo2.indexOf("[") == -1 ? "[]" : memo2.substring(memo2.indexOf("["));
+								Materials[pf0pf[k].id] = {name:pf0pf[k].name, job:job2};
+							}
+							
+							if(FinishedProduct[itempf[j].id]){
+								DirectMaterial[itempf[j].id] = parseFloat(FinishedProduct[itempf[j].id]) + parseFloat(pf0no) * parseFloat(makingNo);
+							}else{
+								FinishedProduct[itempf[j].id] = parseFloat(pf0no) * parseFloat(makingNo);
+							}
+						}else{
+							//---console.log("+++直接材料就是基础材料>>>>>>>>>> name="+itempf[j].name+" id="+itempf[j].id);
+							
+							if(baseMaterial[itempf[j].id]){
+								baseMaterial[itempf[j].id] = parseFloat(baseMaterial[itempf[j].id]) + parseFloat(pf0no) * parseFloat(makingNo);
+							}else{
+								baseMaterial[itempf[j].id] = parseFloat(pf0no) * parseFloat(makingNo);
+							}
+						}
+						//直接材料统计
+						if(DirectMaterial[itempf[j].id]){
+							DirectMaterial[itempf[j].id] = parseFloat(DirectMaterial[itempf[j].id]) + parseFloat(pf0no) * parseFloat(makingNo);
+						}else{
+							DirectMaterial[itempf[j].id] = parseFloat(pf0no) * parseFloat(makingNo);
+						}
+						
+						var memo3 = itempf[j].memo;
+						var job3 = memo3.indexOf("[") == -1 ? "[]" : memo3.substring(memo3.indexOf("["));
+						Materials[itempf[j].id] = {name:itempf[j].name,job:job3};
+					}
+					
+				});
+				
+				/*console.log("baseMaterial");
+				console.log(baseMaterial);
+				console.log("DirectMaterial");
+				console.log(DirectMaterial);
+				console.log("SecondMaterial");
+				console.log(SecondMaterial);
+				console.log("ThirdMaterial");
+				console.log(ThirdMaterial);
+				console.log("FourthMaterial");
+				console.log(FourthMaterial);
+				
+				console.log("Materials");
+				console.log(Materials);*/
+				
+				console.log(FinishedProduct);
+				
+				$.each(baseMaterial, function(index) {
+					tem1.push({text:Materials[index].name + " <font color=red>x"+baseMaterial[index] +"</font> <font color=green>" + Materials[index].job + "</font>",id:randomString(5)});
+				});
+				$.each(DirectMaterial, function(index) {
+					tem2.push({text:Materials[index].name + " <font color=red>x"+DirectMaterial[index] +"</font> <font color=green>" + Materials[index].job + "</font>",id:randomString(5)});
+				});
+				$.each(SecondMaterial, function(index) {
+					tem3.push({text:Materials[index].name + " <font color=red>x"+SecondMaterial[index] +"</font> <font color=green>" + Materials[index].job + "</font>",id:randomString(5)});
+				});
+				$.each(ThirdMaterial, function(index) {
+					tem4.push({text:Materials[index].name + " <font color=red>x"+ThirdMaterial[index] +"</font> <font color=green>" + Materials[index].job + "</font>",id:randomString(5)});
+				});
+				$.each(FourthMaterial, function(index) {
+					tem5.push({text:Materials[index].name + " <font color=red>x"+FourthMaterial[index] +"</font> <font color=green>" + Materials[index].job + "</font>",id:randomString(5)});
+				});
+				
+				$.each(FinishedProduct, function(index) {
+					tem6.push({text:Materials[index].name + " <font color=red>x"+FinishedProduct[index] +"</font> <font color=green>" + Materials[index].job + "</font>",id:randomString(5)});
+				});
+				
+				treeObj10[0]["children"] = tem1;
+				maintree10.setData(treeObj10);
+				
+				treeObj2[0]["children"] = tem2;
+				maintree2.setData(treeObj2);
+				
+				treeObj3[0]["children"] = tem3;
+				maintree3.setData(treeObj3);
+				
+				treeObj4[0]["children"] = tem4;
+				maintree4.setData(treeObj4);
+				
+				treeObj5[0]["children"] = tem5;
+				maintree5.setData(treeObj5);
+				
+				treeObj6[0]["children"] = tem6;
+				maintree6.setData(treeObj6);
+			}
+			
+
+			function test1(e) {
+				console.log(e.node.id)
+			}
+		</script>
+	</body>
+
+</html>
