@@ -6,10 +6,6 @@ var makeLis_ = {
 }
 
 var makeLis = {
-_000 : {id:"000",name:"000",job:"刻木匠",lv:"1",type:"木材",pf:[{id:"111",name:"111",memo:"111直接材料 x3 [园:3]",job:"刻木匠",no:"3"}],sj:[{id:"843899bc8f6",name:"风之碎晶",memo:"风之碎晶 x1",no:"1"},],img:"",lifu:""},
-_111 : {id:"111",name:"111",job:"刻木匠",lv:"1",type:"木材",pf:[{id:"222",name:"222",memo:"222二级材料 x3 [园:3]",job:"刻木匠",no:"3"}],sj:[{id:"843899bc8f6",name:"风之碎晶",memo:"风之碎晶 x1",no:"1"},],img:"",lifu:""},
-_222 : {id:"222",name:"222",job:"刻木匠",lv:"1",type:"木材",pf:[{id:"333",name:"333",memo:"333三级材料 x3 [园:3]",job:"刻木匠",no:"3"}],sj:[{id:"843899bc8f6",name:"风之碎晶",memo:"风之碎晶 x1",no:"1"},],img:"",lifu:""},
-_333 : {id:"333",name:"333",job:"刻木匠",lv:"1",type:"木材",pf:[{id:"444",name:"444",memo:"四级材料 x3 [园:3]",job:"刻木匠",no:"3"}],sj:[{id:"843899bc8f6",name:"风之碎晶",memo:"风之碎晶 x1",no:"1"},],img:"",lifu:""},
 	
  _37c5f851e6f : {id:"37c5f851e6f",name:"枫木木材",job:"刻木匠",lv:"1",type:"木材",pf:[{id:"311a075724f",name:"枫木原木",memo:"枫木原木 x3 [园:3]",job:"刻木匠",no:"3"},],sj:[{id:"843899bc8f6",name:"风之碎晶",memo:"风之碎晶 x1",no:"1"},],img:"http://i1.17173cdn.com/ap2fes/YWxqaGBf/images/itemicon/c7/c715fc333f3fa0cd56dd22dd4ed11d3647626c59.png",lifu:""},
  _65cf0b16ac6 : {id:"65cf0b16ac6",name:"枫木木拖鞋",job:"刻木匠",lv:"1",type:"脚部防具",pf:[{id:"37c5f851e6f",name:"枫木木材",memo:"枫木木材 x1 [木:1]",job:"刻木匠",no:"1"},],sj:[{id:"f2dfd367f1e",name:"冰之碎晶",memo:"冰之碎晶 x1",no:"1"},],img:"http://i1.17173cdn.com/ap2fes/YWxqaGBf/images/itemicon/7b/7bd99749134e63e3ba03a13c6068ac556c330c6b.png",lifu:""},
