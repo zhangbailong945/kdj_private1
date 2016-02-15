@@ -26,7 +26,7 @@
 	<body>
 	<div id="layout1" class="mini-layout" style="width:100%;height:100%;">
 		<div showHeader="false"  region="north" height="53">
-			<h2 style="margin-left: 20px;">FF14 Craftsman Calculator V1.0</h2>
+			<h2 style="margin-left: 20px;">FF14 Crafter Calculator V1.0</h2>
 		</div>
 		<div title="south" region="south" showSplit="false" showHeader="false" height="20">
 			<center>Copyright © <font color="#FF6347">@温文尔雅的暖宝宝</font></center>
@@ -84,7 +84,7 @@
 				    </div>
 				    <div showCollapseButton="false" style="border: none;">
 				        
-				        <div class="mini-panel" title="Basics material" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+				        <div class="mini-panel" title="Basics material" iconCls="icon-add" style="width:240px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
 							<div id="eeeeeeeeeeee">
 								<ul id="maintree10" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
 								</ul>
@@ -102,19 +102,19 @@
 								</ul>
 							</div>
 						</div>
-						<div class="mini-panel" title="Second materia" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+						<div class="mini-panel" title="Second materia" iconCls="icon-add" style="width:240px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
 							<div id="ffffffffffff">
 								<ul id="maintree3" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
 								</ul>
 							</div>
 						</div>
-						<div class="mini-panel" title="Third materia" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+						<div class="mini-panel" title="Third materia" iconCls="icon-add" style="width:240px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
 							<div id="ggggggg">
 								<ul id="maintree4" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
 								</ul>
 							</div>
 						</div>
-						<div class="mini-panel" title="Fourth materia" iconCls="icon-add" style="width:230px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
+						<div class="mini-panel" title="Fourth materia" iconCls="icon-add" style="width:240px; padding: 5px; margin-left:10px ; float: left;" showToolbar="true" showCollapseButton="true" showFooter="false">
 							<div id="hhhhhhhhh">
 								<ul id="maintree5" class="mini-tree" onnodecheck="" style="width:100%;padding:5px;" showTreeIcon="true" textField="text" idField="id" showCheckBox="false" resultAsTree="false">
 								</ul>
@@ -164,7 +164,31 @@
 			})
 			
 			function delML(){
-				
+				var temNode = maintree1.getSelectedNode();
+				if(temNode){
+					mini.confirm("确定删除记录？", "确定？",
+						function (action) {
+			                if (action == "ok") {
+			                    maintree1.removeNode(temNode);
+								delete treeObjsID[temNode.id];
+			                }
+			            }
+			        );
+				}else{
+					console.log("未选中");
+					mini.alert("请选择要删除的待生产物品！");
+				}
+			}
+			
+			function clearML(){
+				mini.confirm("确定清空待生产列表？", "确定？",
+					function (action) {
+			            if (action == "ok") {
+			                treeObjsID = {};
+							updateTree();
+			            }
+			        }
+			    );
 			}
 			
 			function ChangeNo(){
@@ -207,7 +231,7 @@
 					store.set('saveList',saveList);
 				}else{
 					console.log("未选中");
-					mini.alert("请选择要删除历史记录！");
+					mini.alert("请选择要删除的历史记录！");
 				}
 			}
 			
@@ -303,7 +327,7 @@
 			 * @param {Object} e
 			 */
 			function addToList(e){
-				console.log(e);
+				//console.log(e);
 				var row = e.row;
 				if(treeObjsID[row.id]){
 					//console.log("数组存在id "+row.id);
